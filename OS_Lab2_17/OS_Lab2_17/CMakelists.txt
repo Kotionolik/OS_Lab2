@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.10)
+project(OS_Lab2_17)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_library(functions_lib STATIC functions.cpp) 
+
+add_executable(main17 main.cpp)
+target_link_libraries(main17 PRIVATE functions_lib)
+
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+add_executable(tests main_test.cpp)
+target_link_libraries(tests PRIVATE functions_lib gtest_main)
+
+target_compile_definitions(tests PRIVATE TESTING)
+
+add_test(NAME tests COMMAND tests)
